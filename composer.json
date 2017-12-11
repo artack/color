@@ -1,0 +1,26 @@
+{
+    "name": "artack/color",
+    "type": "library",
+    "description": "Color helper functions like conversion.",
+    "keywords": ["color", "conversion"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ARTACK WebLab GmbH",
+            "homepage": "https://www.artack.ch"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "webmozart/assert": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {"Artack\\Color\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": { "Artack\\Color\\": "tests/" }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    }
+}

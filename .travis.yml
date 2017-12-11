@@ -1,0 +1,20 @@
+language: php
+sudo: false
+
+git:
+    depth: 5
+
+matrix:
+    include:
+        - php: 7.0
+        - php: 7.1
+        - php: 7.2
+    fast_finish: true
+
+before_install:
+    # disable xdebug if available
+    - phpenv config-rm xdebug.ini || echo "xdebug not available"
+
+install:
+    # install dependencies using system provided composer binary
+    - composer install --no-interaction
