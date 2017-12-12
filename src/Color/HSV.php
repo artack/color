@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Artack\Color;
+namespace Artack\Color\Color;
 
 use Webmozart\Assert\Assert;
 

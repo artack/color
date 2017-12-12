@@ -1,6 +1,6 @@
 <?php
 
-namespace Artack\Color;
+namespace Artack\Color\Color;
 
 use PHPUnit\Framework\TestCase;
 

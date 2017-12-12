@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Artack\Color;
+namespace Artack\Color\Color;
 
 abstract class Color
 {
