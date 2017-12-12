@@ -32,7 +32,7 @@ class ConverterTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \InvalidArgumentException
      */
     public function testWrongParameterHSVToRGB()
     {
@@ -43,7 +43,7 @@ class ConverterTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \InvalidArgumentException
      */
     public function testWrongParameterRGBToHSV()
     {
@@ -54,7 +54,7 @@ class ConverterTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \InvalidArgumentException
      */
     public function testWrongParameterRGBToHEX()
     {

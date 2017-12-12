@@ -17,7 +17,8 @@ class RGBTransitionTest extends TestCase
         $end = new RGB($endRed, $endGreen, $endBlue);
 
         /** @var RGB $color */
-        $color = RGBTransition::interpolate($start, $end, $value, $max);
+        $transition = new RGBTransition();
+        $color = $transition->interpolate($start, $end, $value, $max);
 
         $this->assertEquals($expectedRed, $color->getRed());
         $this->assertEquals($expectedGreen, $color->getGreen());

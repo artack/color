@@ -7,14 +7,14 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
+use Webmozart\Assert\Assert;
 
 class HSVToRGBConverter implements Convertible
 {
     public function convert(Color $color): Color
     {
-        if (!$color instanceof HSV) {
-            throw new \RuntimeException(sprintf('color should be an instance of [%s]', HSV::class));
-        }
+        /* @var HSV $color */
+        Assert::isInstanceOf($color, HSV::class, sprintf('color should be an instance of [%s]', HSV::class));
 
         $h = $color->getHue();
         $s = $color->getSaturation() / 100;

@@ -7,14 +7,14 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
+use Webmozart\Assert\Assert;
 
 class RGBToHSVConverter implements Convertible
 {
     public function convert(Color $color): Color
     {
-        if (!$color instanceof RGB) {
-            throw new \RuntimeException('color is not RGB');
-        }
+        /* @var RGB $color */
+        Assert::isInstanceOf($color, RGB::class, sprintf('color should be an instance of [%s]', RGB::class));
 
         $red = $color->getRed() / 255;
         $green = $color->getGreen() / 255;
@@ -26,7 +26,7 @@ class RGBToHSVConverter implements Convertible
 
         $hue = $cMax;
 
-        if ($cDelta == 0) {
+        if (0 == $cDelta) {
             $hue = 0;
         } elseif ($cMax === $red) {
             $hue = ($green - $blue) / $cDelta;
@@ -38,7 +38,7 @@ class RGBToHSVConverter implements Convertible
 
         $hue = (int) round($hue * 60);
         $hue = $hue < 0 ? $hue + 360 : $hue;
-        $saturation = $cMax === 0 ? 0 : $cDelta / $cMax;
+        $saturation = 0 === $cMax ? 0 : $cDelta / $cMax;
 
         return new HSV($hue, $saturation * 100, $cMax * 100);
     }

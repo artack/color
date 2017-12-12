@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Artack\Color;
 
 use Artack\Color\Color\Color;
@@ -7,7 +9,6 @@ use Artack\Color\Converter\Convertible;
 
 class Converter
 {
-
     /** @var Convertible[] */
     private $converters = [];
 
@@ -21,7 +22,7 @@ class Converter
         }
     }
 
-    public function addConverter(Convertible $converter)
+    private function addConverter(Convertible $converter)
     {
         $this->converters[] = $converter;
     }
@@ -66,5 +67,4 @@ class Converter
 
         throw new \RuntimeException('no converter found getConverterTo');
     }
-
 }

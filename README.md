@@ -62,10 +62,13 @@ use Artack\Color\Color\RGB;
 use Artack\Color\Color\HSV;
 use Artack\Color\Transition\RGBTransition;
 
+$transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
+        
 $RGBRed = new RGB(255, 0, 0); // red
 $RGBGreen = new RGB(0, 255, 0); // green
 
-$RGBInterpolated = RGBTransition::interpolate($RGBRed, $RGBGreen, 100, 200); // should be ~yellow
+$RGBInterpolated = $transition->interpolate(RGB::class, $RGBRed, $RGBGreen, 100, 200); // should be ~yellow
 
-// Better use HSVTransition for interpolation of colors.
+// Interpolation will give better results when using HSV Transition. Colors get converted automaticly if needed.
+$HSVInterpolated = $transition->interpolate(HSV::class, $RGBRed, $RGBGreen, 100, 200); // should be ~yellow
 ```

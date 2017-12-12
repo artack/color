@@ -18,7 +18,8 @@ class HSVTransitionTest extends TestCase
         $end = new HSV($endHue, $endSaturation, $endValue);
 
         /** @var HSV $color */
-        $color = HSVTransition::interpolate($start, $end, $value, $max);
+        $transition = new HSVTransition();
+        $color = $transition->interpolate($start, $end, $value, $max);
 
         $this->assertEquals($expectedHue, $color->getHue());
         $this->assertEquals($expectedSaturation, $color->getSaturation());

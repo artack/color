@@ -6,12 +6,18 @@ namespace Artack\Color\Transition;
 
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HSV;
-use Artack\Color\Color\RGB;
+use Webmozart\Assert\Assert;
 
 class HSVTransition implements TransitionInterface
 {
-    public static function interpolate(Color $startColor, Color $endColor, float $value, float $max): Color
+    public function interpolate(Color $startColor, Color $endColor, float $value, float $max): Color
     {
+        /* @var HSV $startColor */
+        Assert::isInstanceOf($startColor, HSV::class, sprintf('startColor needs to be an instance of [%s]', HSV::class));
+
+        /* @var HSV $endColor */
+        Assert::isInstanceOf($endColor, HSV::class, sprintf('endColor needs to be an instance of [%s]', HSV::class));
+
         $step = $value / $max;
 
         $hue = $startColor->getHue() + ($endColor->getHue() - $startColor->getHue()) * $step;
@@ -19,5 +25,10 @@ class HSVTransition implements TransitionInterface
         $value = $startColor->getValue() + ($endColor->getValue() - $startColor->getValue()) * $step;
 
         return new HSV((int) round($hue), $saturation, $value);
+    }
+
+    public function supports(string $fqcn): bool
+    {
+        return HSV::class === $fqcn;
     }
 }

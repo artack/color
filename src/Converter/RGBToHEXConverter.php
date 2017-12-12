@@ -7,14 +7,14 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HEX;
 use Artack\Color\Color\RGB;
+use Webmozart\Assert\Assert;
 
 class RGBToHEXConverter implements Convertible
 {
     public function convert(Color $color): Color
     {
-        if (!$color instanceof RGB) {
-            throw new \RuntimeException('color is not RGB');
-        }
+        /* @var RGB $color */
+        Assert::isInstanceOf($color, RGB::class, sprintf('color should be an instance of [%s]', RGB::class));
 
         $red = dechex($color->getRed());
         $green = dechex($color->getGreen());

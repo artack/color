@@ -8,7 +8,6 @@ use Webmozart\Assert\Assert;
 
 class HSV extends Color
 {
-
     private $hue;
     private $saturation;
     private $value;
@@ -38,5 +37,4 @@ class HSV extends Color
     {
         return $this->value;
     }
-
 }

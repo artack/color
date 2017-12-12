@@ -8,7 +8,6 @@ use Webmozart\Assert\Assert;
 
 class HEX extends Color
 {
-
     private $red;
     private $green;
     private $blue;
@@ -43,5 +42,4 @@ class HEX extends Color
     {
         return $this->blue;
     }
-
 }

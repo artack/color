@@ -8,5 +8,7 @@ use Artack\Color\Color\Color;
 
 interface TransitionInterface
 {
-    public static function interpolate(Color $startColor, Color $endColor, float $value, float $max): Color;
+    public function interpolate(Color $startColor, Color $endColor, float $value, float $max): Color;
+
+    public function supports(string $fqcn): bool;
 }

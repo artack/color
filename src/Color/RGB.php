@@ -8,7 +8,6 @@ use Webmozart\Assert\Assert;
 
 class RGB extends Color
 {
-
     private $red;
     private $green;
     private $blue;
@@ -38,5 +37,4 @@ class RGB extends Color
     {
         return $this->blue;
     }
-
 }
