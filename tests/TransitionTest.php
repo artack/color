@@ -11,11 +11,17 @@ use PHPUnit\Framework\TestCase;
 class TransitionTest extends TestCase
 {
 
+    /** @var Transition */
+    private $transition;
+
+    protected function setUp()
+    {
+        $this->transition = new Transition(Factory::getTransitions(), new Converter(new ConverterGraph(Factory::getConverterGraph())));
+    }
+
     public function testTransition()
     {
-        $transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
-
-        $this->assertInstanceOf(Transition::class, $transition);
+        $this->assertInstanceOf(Transition::class, $this->transition);
     }
 
     /**
@@ -31,40 +37,32 @@ class TransitionTest extends TestCase
 
     public function testGetRGBTransition()
     {
-        $transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
-
         $RGB = new RGB(0, 0, 0);
-        $color = $transition->interpolate(RGB::class, $RGB, $RGB, 0, 1);
+        $color = $this->transition->interpolate(RGB::class, $RGB, $RGB, 0, 1);
 
         $this->assertInstanceOf(RGB::class, $color);
     }
 
     public function testGetRGBTransitionWithHSVColors()
     {
-        $transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
-
         $HSV = new HSV(0, 0, 0);
-        $color = $transition->interpolate(RGB::class, $HSV, $HSV, 0, 1);
+        $color = $this->transition->interpolate(RGB::class, $HSV, $HSV, 0, 1);
 
         $this->assertInstanceOf(RGB::class, $color);
     }
 
     public function testGetHSVTransitionWithRGBColors()
     {
-        $transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
-
         $RGB = new RGB(0, 0, 0);
-        $color = $transition->interpolate(HSV::class, $RGB, $RGB, 0, 1);
+        $color = $this->transition->interpolate(HSV::class, $RGB, $RGB, 0, 1);
 
         $this->assertInstanceOf(HSV::class, $color);
     }
 
     public function testGetHSVTransition()
     {
-        $transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
-
         $HSV = new HSV(0, 0, 0);
-        $color = $transition->interpolate(HSV::class, $HSV, $HSV, 0, 1);
+        $color = $this->transition->interpolate(HSV::class, $HSV, $HSV, 0, 1);
 
         $this->assertInstanceOf(HSV::class, $color);
     }
@@ -74,10 +72,8 @@ class TransitionTest extends TestCase
      */
     public function testGetNonExistingTransition()
     {
-        $transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
-
         $HEX = new HEX(0, 0, 0);
-        $color = $transition->interpolate(HEX::class, $HEX, $HEX, 0, 1);
+        $color = $this->transition->interpolate(HEX::class, $HEX, $HEX, 0, 1);
 
         $this->assertInstanceOf(HEX::class, $color);
     }

@@ -5,30 +5,64 @@ namespace Artack\Color;
 use Artack\Color\Color\HEX;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
+use Artack\Color\Converter\HEXToRGBConverter;
 use Artack\Color\Converter\HSVToRGBConverter;
 use Artack\Color\Converter\RGBToHEXConverter;
 use Artack\Color\Converter\RGBToHSVConverter;
+use Fhaculty\Graph\Graph;
 use PHPUnit\Framework\TestCase;
 
 class ConverterTest extends TestCase
 {
+    /** @var Converter */
+    private $converter;
+
+    protected function setUp()
+    {
+        $this->converter = new Converter(new ConverterGraph(Factory::getConverterGraph()));
+    }
 
     public function testConverter()
     {
-        $converter = new Converter(Factory::getConverters());
-
-        $this->assertInstanceOf(Converter::class, $converter);
+        $this->assertInstanceOf(Converter::class, $this->converter);
     }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testNoConverterTo()
+    public function testMultipleVertexId()
     {
-        $RGB = new RGB(0, 0, 0);
-        $converter = new Converter([]);
+        $graph = new Graph();
 
-        $converter->convert($RGB, HEX::class);
+        $RGBVertex = $graph->createVertex(RGB::class);
+        $HST1Vertex = $graph->createVertex(HSV::class);
+        $HST2Vertex = $graph->createVertex(HSV::class);
+
+        $RGBVertex->createEdgeTo($HST1Vertex)->setAttribute(Factory::GRAPH_EDGE_KEY_CONVERTER, new RGBToHSVConverter());
+        $RGBVertex->createEdgeTo($HST2Vertex)->setAttribute(Factory::GRAPH_EDGE_KEY_CONVERTER, new RGBToHSVConverter());
+
+        $converter = new Converter(new ConverterGraph($graph));
+        $RGB = new RGB(0, 0, 0);
+
+        $converter->convert($RGB, HSV::class);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testNoneVertexId()
+    {
+        $graph = new Graph();
+
+        $HEXVertex = $graph->createVertex(HEX::class);
+        $RGBVertex = $graph->createVertex(RGB::class);
+
+        $HEXVertex->createEdgeTo($RGBVertex)->setAttribute(Factory::GRAPH_EDGE_KEY_CONVERTER, new HEXToRGBConverter());
+
+        $converter = new Converter(new ConverterGraph($graph));
+        $RGB = new RGB(0, 0, 0);
+
+        $converter->convert($RGB, HSV::class);
     }
 
     /**
@@ -65,29 +99,83 @@ class ConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider colorProvider
+     * @expectedException \InvalidArgumentException
      */
-    public function testRGBtoHSV($red, $green, $blue, $hue, $saturation, $value)
+    public function testWrongParameterHEXToRGB()
     {
-        $converter = new Converter(Factory::getConverters());
-        $hsv = $converter->convert(new RGB($red, $green, $blue), HSV::class);
+        $HSV = new HSV(0, 0, 0);
+        $HEXToRGBConverter = new HEXToRGBConverter();
 
-        $this->assertEquals($hue, $hsv->getHue());
-        $this->assertEquals($saturation, round($hsv->getSaturation(), 2));
-        $this->assertEquals($value, round($hsv->getValue(), 2));
+        $HEXToRGBConverter->convert($HSV);
     }
 
     /**
      * @dataProvider colorProvider
      */
-    public function testHSVtoRGB($red, $green, $blue, $hue, $saturation, $value)
+    public function testHEXtoHEX($red, $green, $blue, $hue, $saturation, $value, $hex)
     {
-        $converter = new Converter(Factory::getConverters());
-        $rgb = $converter->convert(new HSV($hue, $saturation, $value), RGB::class);
+        /** @var HEX $color */
+        $HEX = new HEX(substr($hex, 0, 2), substr($hex, 2, 2), substr($hex, 4, 2));
+        $color = $this->converter->convert($HEX, HEX::class);
 
-        $this->assertEquals($red, $rgb->getRed());
-        $this->assertEquals($green, $rgb->getGreen());
-        $this->assertEquals($blue, $rgb->getBlue());
+        $this->assertNotSame($color, $HEX);
+        $this->assertEquals(strtolower($hex), (string)$color);
+    }
+
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testRGBtoRGB($red, $green, $blue, $hue, $saturation, $value, $hex)
+    {
+        /** @var RGB $color */
+        $RGB = new RGB($red, $green, $blue);
+        $color = $this->converter->convert($RGB, RGB::class);
+
+        $this->assertNotSame($color, $RGB);
+        $this->assertEquals($red, $color->getRed());
+        $this->assertEquals($green, $color->getGreen());
+        $this->assertEquals($blue, $color->getBlue());
+    }
+
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testHSTtoHST($red, $green, $blue, $hue, $saturation, $value, $hex)
+    {
+        /** @var HSV $color */
+        $HSV = new HSV($hue, $saturation, $value);
+        $color = $this->converter->convert($HSV, HSV::class);
+
+        $this->assertNotSame($color, $HSV);
+        $this->assertEquals($hue, $color->getHue());
+        $this->assertEquals($saturation, round($color->getSaturation(), 2));
+        $this->assertEquals($value, round($color->getValue(), 2));
+    }
+
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testRGBtoHSV($red, $green, $blue, $hue, $saturation, $value, $hex)
+    {
+        /** @var HSV $color */
+        $color = $this->converter->convert(new RGB($red, $green, $blue), HSV::class);
+
+        $this->assertEquals($hue, $color->getHue());
+        $this->assertEquals($saturation, round($color->getSaturation(), 2));
+        $this->assertEquals($value, round($color->getValue(), 2));
+    }
+
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testHSVtoRGB($red, $green, $blue, $hue, $saturation, $value, $hex)
+    {
+        /** @var RGB $color */
+        $color = $this->converter->convert(new HSV($hue, $saturation, $value), RGB::class);
+
+        $this->assertEquals($red, $color->getRed());
+        $this->assertEquals($green, $color->getGreen());
+        $this->assertEquals($blue, $color->getBlue());
     }
 
     /**
@@ -95,10 +183,23 @@ class ConverterTest extends TestCase
      */
     public function testRGBtoHEX($red, $green, $blue, $hue, $saturation, $value, $hex)
     {
-        $converter = new Converter(Factory::getConverters());
-        $rgb = $converter->convert(new RGB($red, $green, $blue), HEX::class);
+        /** @var HEX $color */
+        $color = $this->converter->convert(new RGB($red, $green, $blue), HEX::class);
 
-        $this->assertEquals(strtolower($hex), (string)$rgb);
+        $this->assertEquals(strtolower($hex), (string)$color);
+    }
+
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testHEXtoRGB($red, $green, $blue, $hue, $saturation, $value, $hex)
+    {
+        /** @var RGB $color */
+        $color = $this->converter->convert(new HEX(substr($hex, 0, 2), substr($hex, 2, 2), substr($hex, 4, 2)), RGB::class);
+
+        $this->assertEquals($red, $color->getRed());
+        $this->assertEquals($green, $color->getGreen());
+        $this->assertEquals($blue, $color->getBlue());
     }
 
     /**
@@ -106,10 +207,23 @@ class ConverterTest extends TestCase
      */
     public function testHSVtoHEX($red, $green, $blue, $hue, $saturation, $value, $hex)
     {
-        $converter = new Converter(Factory::getConverters());
-        $rgb = $converter->convert(new HSV($hue, $saturation, $value), HEX::class);
+        /** @var HEX $color */
+        $color = $this->converter->convert(new HSV($hue, $saturation, $value), HEX::class);
 
-        $this->assertEquals(strtolower($hex), (string)$rgb);
+        $this->assertEquals(strtolower($hex), (string)$color);
+    }
+
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testHEXtoHSV($red, $green, $blue, $hue, $saturation, $value, $hex)
+    {
+        /** @var HSV $color */
+        $color = $this->converter->convert(new HEX(substr($hex, 0, 2), substr($hex, 2, 2), substr($hex, 4, 2)), HSV::class);
+
+        $this->assertEquals($hue, $color->getHue());
+        $this->assertEquals($saturation, round($color->getSaturation(), 2));
+        $this->assertEquals($value, round($color->getValue(), 2));
     }
 
     public function colorProvider()
