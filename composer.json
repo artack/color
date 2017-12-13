@@ -1,8 +1,8 @@
 {
     "name": "artack/color",
     "type": "library",
-    "description": "Color helper functions like conversion.",
-    "keywords": ["color", "conversion"],
+    "description": "Color helper library for converting between RGB, HSV and HEX and create interpolation.",
+    "keywords": ["color", "conversion", "interpolation"],
     "license": "MIT",
     "authors": [
         {

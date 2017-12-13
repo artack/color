@@ -54,7 +54,7 @@ use Artack\Color\Factory;
 $converter = Factory::createConverter();
 $RGB = new RGB(0, 255, 0);
 
-$converter->convert($RGB, HSV::class);
+$HSV = $converter->convert($RGB, HSV::class);
 ```
 
 Get an interpolation color between two colors with the value (and max) given:
