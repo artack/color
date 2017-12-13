@@ -7,6 +7,7 @@ artack/color
 [![Build Status](https://img.shields.io/travis/ARTACK/color.svg?style=flat)](https://travis-ci.org/ARTACK/color)
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/artack/color.svg?style=flat)](https://scrutinizer-ci.com/g/artack/color/)
 [![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/artack/color.svg)](https://scrutinizer-ci.com/g/artack/color/)
+
 [![Latest Release](https://img.shields.io/packagist/v/artack/color.svg)](https://packagist.org/packages/artack/color)
 [![MIT License](https://img.shields.io/packagist/l/artack/color.svg)](http://opensource.org/licenses/MIT)
 [![Total Downloads](https://img.shields.io/packagist/dt/artack/color.svg)](https://packagist.org/packages/artack/color)
