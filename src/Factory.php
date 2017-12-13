@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Artack\Color;
 
-use Artack\Color\Color\Color;
 use Artack\Color\Color\HEX;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
@@ -36,9 +35,6 @@ class Factory
         ];
     }
 
-    /**
-     * @return Color[]
-     */
     public static function getColors(): array
     {
         return [
