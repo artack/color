@@ -1,20 +1,33 @@
 language: php
+
 sudo: false
 
 git:
-    depth: 5
+  depth: 5
 
 matrix:
-    include:
-        - php: 7.0
-        - php: 7.1
-        - php: 7.2
-    fast_finish: true
+  include:
+  - php: 7.0
+  - php: 7.1
+  - php: 7.2
+  fast_finish: true
+
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 before_install:
-    # disable xdebug if available
-    - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  - travis_retry composer self-update && composer --version
 
 install:
-    # install dependencies using system provided composer binary
-    - composer install --no-interaction
+  - travis_retry composer install --no-interaction
+
+script: vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
+
+after_script:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;'
+
+notifications:
+  email: false
+  slack:
+    secure: OUvKvmWpD2OziO7LCa0Jzx36QzLxKuaiaUDmvqNyvERnU8jySsKSCs67JBEyAXStBTJCFRnQziAaY82JLKGeDvFLvrg3X4lhKeGhRTFvo0lB3XBn9mCLaHTuQbITpmoEM6ME0usgsKUaZgaiVHIKp0hIvx3/B+8nQFAAXOss3nDcCP3C7f76ffImEWAg98kK61USAGINhFwy5R05IgaPHUXSX2yiTIOQqBRI6pIqv4ADqpwMU+SfIJhbZWyBwxxY/eMIk91L5yNFIpAFfESbGhlJkbeAG1ztzPwnIvmIWfljWQE4PNPiVXquCJtxvTFrDIu9/RJ9PMD7DpzuzxfrdrzpLRZdsWLQHU5VPdWtVh25cJ37AIrKFQsi0vdnqodSZTWNgR9kcHmKGq3UUSvDQT2iTzFQJzcH6xj/Sx2R6DTznLeOsoyzH2STIiL5LSqlg6ZENi8gHXJ1X9UmGn9+2AMZAx64+i80syNfEUoVSQV40w09bV/z3u7U+DNIE7OL5CIFH20PoTK+ad+v7UW7yx/qw86b9f0PCu9jWBW8941cy1uiCRmTwaDtvfGGvsORK0NePxysYPeda5cW9wIPGY8z2XYCF4C1wORj9m9D+A9nbD39Jy8p80fiPohtMRhqg9q4EtsXdztZigHDewkqo51zvrCPQ6hpRAbKJSoq4Go=
