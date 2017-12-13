@@ -16,7 +16,7 @@ class TransitionTest extends TestCase
 
     protected function setUp()
     {
-        $this->transition = new Transition(Factory::getTransitions(), new Converter(new ConverterGraph(Factory::getConverterGraph())));
+        $this->transition = Factory::createTransition();
     }
 
     public function testTransition()

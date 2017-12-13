@@ -6,7 +6,7 @@ artack/color
 
 [![Build Status](https://img.shields.io/travis/ARTACK/color.svg?style=flat)](https://travis-ci.org/ARTACK/color)
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/artack/color.svg?style=flat)](https://scrutinizer-ci.com/g/artack/color/)
-
+[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/artack/color.svg)](https://scrutinizer-ci.com/g/artack/color/)
 [![Latest Release](https://img.shields.io/packagist/v/artack/color.svg)](https://packagist.org/packages/artack/color)
 [![MIT License](https://img.shields.io/packagist/l/artack/color.svg)](http://opensource.org/licenses/MIT)
 [![Total Downloads](https://img.shields.io/packagist/dt/artack/color.svg)](https://packagist.org/packages/artack/color)
@@ -50,7 +50,7 @@ use Artack\Color\Color\HSV;
 use Artack\Color\Converter;
 use Artack\Color\Factory;
 
-$converter = new Converter(Factory::getConverters());
+$converter = Factory::createConverter();
 $RGB = new RGB(0, 255, 0);
 
 $converter->convert($RGB, HSV::class);
@@ -62,7 +62,7 @@ use Artack\Color\Color\RGB;
 use Artack\Color\Color\HSV;
 use Artack\Color\Transition\RGBTransition;
 
-$transition = new Transition(Factory::getTransitions(), new Converter(Factory::getConverters()));
+$transition = Factory::createTransition();
         
 $RGBRed = new RGB(255, 0, 0); // red
 $RGBGreen = new RGB(0, 255, 0); // green

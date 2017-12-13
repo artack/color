@@ -19,7 +19,7 @@ class ConverterTest extends TestCase
 
     protected function setUp()
     {
-        $this->converter = new Converter(new ConverterGraph(Factory::getConverterGraph()));
+        $this->converter = Factory::createConverter();
     }
 
     public function testConverter()

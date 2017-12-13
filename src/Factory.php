@@ -22,10 +22,20 @@ class Factory
 {
     const GRAPH_EDGE_KEY_CONVERTER = 'converter';
 
+    public static function createConverter(): Converter
+    {
+        return new Converter(new ConverterGraph(self::getConverterGraph()));
+    }
+
+    public static function createTransition(): Transition
+    {
+        return new Transition(self::getTransitions(), self::createConverter());
+    }
+
     /**
      * @return Convertible[]
      */
-    public static function getConverters(): array
+    private static function getConverters(): array
     {
         return [
             new RGBToHSVConverter(),
@@ -35,7 +45,7 @@ class Factory
         ];
     }
 
-    public static function getColors(): array
+    private static function getColors(): array
     {
         return [
             RGB::class,
@@ -47,7 +57,7 @@ class Factory
     /**
      * @return TransitionInterface[]
      */
-    public static function getTransitions(): array
+    private static function getTransitions(): array
     {
         return [
             new RGBTransition(),
@@ -55,7 +65,7 @@ class Factory
         ];
     }
 
-    public static function getConverterGraph(): Graph
+    private static function getConverterGraph(): Graph
     {
         $graph = new Graph();
 
