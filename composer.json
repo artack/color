@@ -1,7 +1,7 @@
 {
     "name": "artack/color",
     "type": "library",
-    "description": "Color helper library for converting between RGB, HSV and HEX and create interpolation.",
+    "description": "Color helper library for converting between RGB, CMYK, HSV, HST and HEX and create interpolation.",
     "keywords": ["color", "conversion", "interpolation"],
     "license": "MIT",
     "authors": [
