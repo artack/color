@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Artack\Color\Transition;
 
 use Artack\Color\Color\RGB;
@@ -7,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class RGBTransitionTest extends TestCase
 {
-
     /**
      * @dataProvider interpolationProvider
      */
@@ -28,9 +29,9 @@ class RGBTransitionTest extends TestCase
     public function interpolationProvider()
     {
         return [
-            [  0,   0,   0, 255, 255, 255,   0, 200,   0,   0,   0],
-            [  0,   0,   0, 255, 255, 255, 100, 200, 128, 128, 128],
-            [  0,   0,   0, 255, 255, 255, 200, 200, 255, 255, 255],
+            [0,   0,   0, 255, 255, 255,   0, 200,   0,   0,   0],
+            [0,   0,   0, 255, 255, 255, 100, 200, 128, 128, 128],
+            [0,   0,   0, 255, 255, 255, 200, 200, 255, 255, 255],
             [100, 100, 100, 200, 200, 200,   0, 200, 100, 100, 100],
             [100, 100, 100, 200, 200, 200, 100, 200, 150, 150, 150],
             [100, 100, 100, 200, 200, 200, 200, 200, 200, 200, 200],

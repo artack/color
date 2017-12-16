@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Artack\Color\Converter;
 
 use Artack\Color\Color\Color;
-use Artack\Color\Color\HSV;
+use Artack\Color\Color\HSL;
 use Artack\Color\Color\RGB;
 use Webmozart\Assert\Assert;
 
-class RGBToHSVConverter implements Convertible
+class RGBToHSLConverter implements Convertible
 {
     public function convert(Color $color): Color
     {
@@ -38,12 +38,14 @@ class RGBToHSVConverter implements Convertible
 
         $hue = (int) round($hue * 60);
         $hue = $hue < 0 ? $hue + 360 : $hue;
-        $saturation = 0 === $cMax ? 0 : $cDelta / $cMax;
+
+        $lightning = ($cMax + $cMin) / 2;
+        $saturation = 0 === $cDelta ? 0 : $cDelta / (1 - abs(2 * $lightning - 1));
 
         $saturation = $saturation > 1 || $saturation < 0 ? 1 : $saturation;
-        $cMax = $cMax > 1 || $cMax < 0 ? 1 : $cMax;
+        $lightning = $lightning > 1 || $lightning < 0 ? 1 : $lightning;
 
-        return new HSV($hue, $saturation * 100, $cMax * 100);
+        return new HSL($hue, $saturation * 100, $lightning * 100);
     }
 
     public static function supportsFrom(): string
@@ -53,6 +55,6 @@ class RGBToHSVConverter implements Convertible
 
     public static function supportsTo(): string
     {
-        return HSV::class;
+        return HSL::class;
     }
 }

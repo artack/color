@@ -20,6 +20,10 @@ class RGBToHEXConverter implements Convertible
         $green = dechex($color->getGreen());
         $blue = dechex($color->getBlue());
 
+        $red = str_pad($red, 2, '0', STR_PAD_LEFT);
+        $green = str_pad($green, 2, '0', STR_PAD_LEFT);
+        $blue = str_pad($blue, 2, '0', STR_PAD_LEFT);
+
         return new HEX($red, $green, $blue);
     }
 

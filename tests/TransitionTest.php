@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Artack\Color;
 
 use Artack\Color\Color\HEX;
@@ -10,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 class TransitionTest extends TestCase
 {
-
     /** @var Transition */
     private $transition;
 
@@ -72,10 +73,9 @@ class TransitionTest extends TestCase
      */
     public function testGetNonExistingTransition()
     {
-        $HEX = new HEX(0, 0, 0);
+        $HEX = new HEX('00', '00', '00');
         $color = $this->transition->interpolate(HEX::class, $HEX, $HEX, 0, 1);
 
         $this->assertInstanceOf(HEX::class, $color);
     }
-
 }

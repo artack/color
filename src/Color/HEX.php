@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Artack\Color\Color;
 
-use Webmozart\Assert\Assert;
-
 class HEX extends Color
 {
     private $red;
@@ -14,9 +12,17 @@ class HEX extends Color
 
     public function __construct(string $red, string $green, string $blue)
     {
-        Assert::range(hexdec($red), 0, 255);
-        Assert::range(hexdec($green), 0, 255);
-        Assert::range(hexdec($blue), 0, 255);
+        $pattern = '/^[0-9a-f]{1,2}$/i';
+
+        if (!preg_match($pattern, $red)) {
+            throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $red));
+        }
+        if (!preg_match($pattern, $green)) {
+            throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $green));
+        }
+        if (!preg_match($pattern, $blue)) {
+            throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $blue));
+        }
 
         $this->red = $red;
         $this->green = $green;

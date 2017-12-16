@@ -18,9 +18,8 @@ Developed by [ARTACK WebLab GmbH](https://www.artack.ch) in Zurich, Switzerland.
 Features
 --------
 
-- Provides class representation for **RGB**, **HSV** and **HEX**.
+- Provides class representation for **RGB**, **CMYK**, **HSV**, **HSL** and **HEX**.
 - Provides conversion between (not yet) all class representation
-- PSR-4 compatible.
 - Compatible with PHP >= 7.
 
 
@@ -38,19 +37,12 @@ Usage
 Creating a RGB class representation:
 
 ```php
-use Artack\Color\Color\RGB;
-
 $RGB = new RGB(0, 255, 0);
 echo $RGB->getGreen(); // 255
 ```
 
 Translate RGR class representation to HSV:
 ```php
-use Artack\Color\Color\RGB;
-use Artack\Color\Color\HSV;
-use Artack\Color\Converter;
-use Artack\Color\Factory;
-
 $converter = Factory::createConverter();
 $RGB = new RGB(0, 255, 0);
 
@@ -59,10 +51,6 @@ $HSV = $converter->convert($RGB, HSV::class);
 
 Get an interpolation color between two colors with the value (and max) given:
 ```php
-use Artack\Color\Color\RGB;
-use Artack\Color\Color\HSV;
-use Artack\Color\Transition\RGBTransition;
-
 $transition = Factory::createTransition();
         
 $RGBRed = new RGB(255, 0, 0); // red

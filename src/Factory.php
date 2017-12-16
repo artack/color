@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace Artack\Color;
 
+use Artack\Color\Color\CMYK;
 use Artack\Color\Color\HEX;
+use Artack\Color\Color\HSL;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
+use Artack\Color\Converter\CMYKToRGBConverter;
 use Artack\Color\Converter\Convertible;
 use Artack\Color\Converter\HEXToRGBConverter;
+use Artack\Color\Converter\HSLToRGBConverter;
 use Artack\Color\Converter\HSVToRGBConverter;
+use Artack\Color\Converter\RGBToCMYKConverter;
 use Artack\Color\Converter\RGBToHEXConverter;
+use Artack\Color\Converter\RGBToHSLConverter;
 use Artack\Color\Converter\RGBToHSVConverter;
 use Artack\Color\Transition\HSVTransition;
 use Artack\Color\Transition\RGBTransition;
@@ -42,6 +48,10 @@ class Factory
             new HSVToRGBConverter(),
             new RGBToHEXConverter(),
             new HEXToRGBConverter(),
+            new CMYKToRGBConverter(),
+            new RGBToCMYKConverter(),
+            new HSLToRGBConverter(),
+            new RGBToHSLConverter(),
         ];
     }
 
@@ -50,7 +60,9 @@ class Factory
         return [
             RGB::class,
             HSV::class,
+            HSL::class,
             HEX::class,
+            CMYK::class,
         ];
     }
 
