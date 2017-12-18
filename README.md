@@ -19,7 +19,9 @@ Features
 --------
 
 - Provides class representation for **RGB**, **CMYK**, **HSV**, **HSL** and **HEX**.
-- Provides conversion between (not yet) all class representation
+- Provides conversion between all class representation
+- Provides transitions between colors (e.g. interpolation)
+- Provides clear exceptions to be able to handle library exceptions
 - Compatible with PHP >= 7.
 
 

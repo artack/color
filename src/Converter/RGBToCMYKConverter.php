@@ -9,7 +9,7 @@ use Artack\Color\Color\Color;
 use Artack\Color\Color\RGB;
 use Webmozart\Assert\Assert;
 
-class RGBToCMYKConverter implements Convertible
+class RGBToCMYKConverter implements ConverterInterface
 {
     public function convert(Color $color): Color
     {

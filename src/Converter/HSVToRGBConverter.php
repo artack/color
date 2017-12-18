@@ -9,7 +9,7 @@ use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
 use Webmozart\Assert\Assert;
 
-class HSVToRGBConverter implements Convertible
+class HSVToRGBConverter implements ConverterInterface
 {
     public function convert(Color $color): Color
     {

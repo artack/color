@@ -9,7 +9,7 @@ use Artack\Color\Color\HSL;
 use Artack\Color\Color\RGB;
 use Webmozart\Assert\Assert;
 
-class RGBToHSLConverter implements Convertible
+class RGBToHSLConverter implements ConverterInterface
 {
     public function convert(Color $color): Color
     {

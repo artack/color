@@ -9,7 +9,7 @@ use Artack\Color\Color\HEX;
 use Artack\Color\Color\RGB;
 use Webmozart\Assert\Assert;
 
-class HEXToRGBConverter implements Convertible
+class HEXToRGBConverter implements ConverterInterface
 {
     public function convert(Color $color): Color
     {

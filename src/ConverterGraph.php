@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Artack\Color;
 
-use Artack\Color\Converter\Convertible;
+use Artack\Color\Converter\ConverterInterface;
 use Fhaculty\Graph\Edge\Base;
 use Fhaculty\Graph\Graph;
 use Fhaculty\Graph\Vertex;
@@ -23,7 +23,7 @@ class ConverterGraph
      * @param string $fromFqcn
      * @param string $toFqcn
      *
-     * @return Convertible[]
+     * @return ConverterInterface[]
      */
     public function getConverterChain(string $fromFqcn, string $toFqcn): array
     {

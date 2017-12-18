@@ -10,7 +10,7 @@ use Artack\Color\Color\HSL;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
 use Artack\Color\Converter\CMYKToRGBConverter;
-use Artack\Color\Converter\Convertible;
+use Artack\Color\Converter\ConverterInterface;
 use Artack\Color\Converter\HEXToRGBConverter;
 use Artack\Color\Converter\HSLToRGBConverter;
 use Artack\Color\Converter\HSVToRGBConverter;
@@ -39,7 +39,7 @@ class Factory
     }
 
     /**
-     * @return Convertible[]
+     * @return ConverterInterface[]
      */
     private static function getConverters(): array
     {

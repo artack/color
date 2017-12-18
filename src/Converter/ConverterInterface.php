@@ -6,7 +6,7 @@ namespace Artack\Color\Converter;
 
 use Artack\Color\Color\Color;
 
-interface Convertible
+interface ConverterInterface
 {
     public function convert(Color $color): Color;
 

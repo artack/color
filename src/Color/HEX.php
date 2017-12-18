@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Artack\Color\Color;
 
+use Artack\Color\Exception\InvalidArgumentException;
+
 class HEX extends Color
 {
     private $red;
@@ -15,13 +17,13 @@ class HEX extends Color
         $pattern = '/^[0-9a-f]{1,2}$/i';
 
         if (!preg_match($pattern, $red)) {
-            throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $red));
+            throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $red));
         }
         if (!preg_match($pattern, $green)) {
-            throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $green));
+            throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $green));
         }
         if (!preg_match($pattern, $blue)) {
-            throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $blue));
+            throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $blue));
         }
 
         $this->red = $red;
