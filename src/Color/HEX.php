@@ -24,9 +24,16 @@ class HEX extends Color
             throw new \InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $blue));
         }
 
-        $this->red = $red;
-        $this->green = $green;
-        $this->blue = $blue;
+        $this->red = strtolower($red);
+        $this->green = strtolower($green);
+        $this->blue = strtolower($blue);
+    }
+
+    public static function createFromHexString(string $hex): self
+    {
+        $colorHexParts = str_split(trim($hex, '#'), 2);
+
+        return new self($colorHexParts[0], $colorHexParts[1], $colorHexParts[2]);
     }
 
     public function __toString()
