@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Artack\Color\Color;
 
+use Artack\Color\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class HSLAndHSVTest extends TestCase
@@ -25,10 +26,10 @@ class HSLAndHSVTest extends TestCase
 
     /**
      * @dataProvider wrongInputProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testHSLCanNotBeCreated($hue, $saturation, $lightness)
     {
+        $this->expectException(\InvalidArgumentException::class);
         new HSL($hue, $saturation, $lightness);
     }
 
@@ -49,14 +50,14 @@ class HSLAndHSVTest extends TestCase
 
     /**
      * @dataProvider wrongInputProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testHSVCanNotBeCreated($hue, $saturation, $lightness)
     {
+        $this->expectException(InvalidArgumentException::class);
         new HSV($hue, $saturation, $lightness);
     }
 
-    public function correctInputProvider()
+    public function correctInputProvider(): array
     {
         return [
             [180,  50.0,  50.0],
@@ -73,7 +74,7 @@ class HSLAndHSVTest extends TestCase
         ];
     }
 
-    public function wrongInputProvider()
+    public function wrongInputProvider(): array
     {
         return [
             [-1, 50, 50],

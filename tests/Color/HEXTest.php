@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Artack\Color\Color;
 
+use Artack\Color\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class HEXTest extends TestCase
@@ -25,14 +26,14 @@ class HEXTest extends TestCase
 
     /**
      * @dataProvider wrongInputProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testHEXCanNotBeCreated($red, $green, $blue)
     {
+        $this->expectException(InvalidArgumentException::class);
         new HEX($red, $green, $blue);
     }
 
-    public function correctInputProvider()
+    public function correctInputProvider(): array
     {
         return [
             ['00', '00', '00'],
@@ -41,7 +42,7 @@ class HEXTest extends TestCase
         ];
     }
 
-    public function wrongInputProvider()
+    public function wrongInputProvider(): array
     {
         return [
             ['000', '00', '00'],

@@ -11,19 +11,23 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.0|^8.0",
         "webmozart/assert": "^1.2",
         "clue/graph": "^0.9.0",
         "graphp/algorithms": "^0.8.1"
     },
     "autoload": {
-        "psr-4": {"Artack\\Color\\": "src/"}
+        "psr-4": {
+            "Artack\\Color\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Artack\\Color\\": "tests/" }
+        "psr-4": {
+            "Artack\\Color\\": "tests/"
+        }
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "symfony/var-dumper": "^3.4"
+        "phpunit/phpunit": "^9",
+        "symfony/var-dumper": "^6.1"
     }
 }

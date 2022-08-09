@@ -22,13 +22,13 @@ Features
 - Provides conversion between all class representation
 - Provides transitions between colors (e.g. interpolation)
 - Provides clear exceptions to be able to handle library exceptions
-- Compatible with PHP >= 7.
+- Compatible with PHP >= 7 and >= 8.
 
 
 Installation
 ------------
 
-You can install ARTACK's color library through [Composer](https://getcomposer.org):
+You can install this color library through [Composer](https://getcomposer.org):
 
 ```shell
 $ composer require artack/color
