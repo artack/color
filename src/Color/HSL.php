@@ -8,9 +8,9 @@ use Artack\Color\Exception\InvalidArgumentException;
 
 class HSL extends Color
 {
-    private $hue;
-    private $saturation;
-    private $lightness;
+    private int $hue;
+    private float $saturation;
+    private float $lightness;
 
     public function __construct(int $hue, float $saturation, float $lightness)
     {

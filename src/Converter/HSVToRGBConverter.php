@@ -7,6 +7,7 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HSV;
 use Artack\Color\Color\RGB;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 class HSVToRGBConverter implements ConverterInterface
@@ -58,6 +59,8 @@ class HSVToRGBConverter implements ConverterInterface
                 $g = $p;
                 $b = $q;
                 break;
+            default:
+                throw new RuntimeException();
         }
 
         return new RGB((int) round($r * 255), (int) round($g * 255), (int) round($b * 255));

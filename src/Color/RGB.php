@@ -8,9 +8,9 @@ use Artack\Color\Exception\InvalidArgumentException;
 
 class RGB extends Color
 {
-    private $red;
-    private $green;
-    private $blue;
+    private int $red;
+    private int $green;
+    private int $blue;
 
     public function __construct(int $red, int $green, int $blue)
     {

@@ -7,6 +7,9 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HEX;
 use Artack\Color\Color\RGB;
+
+use const STR_PAD_LEFT;
+
 use Webmozart\Assert\Assert;
 
 class RGBToHEXConverter implements ConverterInterface
