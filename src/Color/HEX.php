@@ -8,9 +8,9 @@ use Artack\Color\Exception\InvalidArgumentException;
 
 class HEX extends Color
 {
-    private $red;
-    private $green;
-    private $blue;
+    private string $red;
+    private string $green;
+    private string $blue;
 
     public function __construct(string $red, string $green, string $blue)
     {

@@ -8,10 +8,10 @@ use Artack\Color\Exception\InvalidArgumentException;
 
 class CMYK extends Color
 {
-    private $cyan;
-    private $magenta;
-    private $yellow;
-    private $key;
+    private float $cyan;
+    private float $magenta;
+    private float $yellow;
+    private float $key;
 
     public function __construct(float $cyan, float $magenta, float $yellow, float $key)
     {

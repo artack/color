@@ -26,7 +26,7 @@ use Fhaculty\Graph\Vertex;
 
 class Factory
 {
-    const GRAPH_EDGE_KEY_CONVERTER = 'converter';
+    public const GRAPH_EDGE_KEY_CONVERTER = 'converter';
 
     public static function createConverter(): Converter
     {
@@ -55,7 +55,10 @@ class Factory
         ];
     }
 
-    private static function getColors(): array
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getColors(): array
     {
         return [
             RGB::class,
@@ -84,8 +87,8 @@ class Factory
         /** @var Vertex[] $vertices */
         $vertices = [];
 
-        foreach (self::getColors() as $color) {
-            $vertices[$color] = $graph->createVertex($color);
+        foreach (self::getColors() as $index => $color) {
+            $vertices[$color] = $graph->createVertex($index);
         }
 
         foreach (self::getConverters() as $converter) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Artack\Color\Color;
 
+use Artack\Color\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class CMYKTest extends TestCase
@@ -11,7 +12,7 @@ class CMYKTest extends TestCase
     /**
      * @dataProvider correctInputProvider
      */
-    public function testCMYKCanBeCreated($cyan, $magenta, $yellow, $key)
+    public function testCMYKCanBeCreated($cyan, $magenta, $yellow, $key): void
     {
         $RGB = new CMYK($cyan, $magenta, $yellow, $key);
 
@@ -26,14 +27,16 @@ class CMYKTest extends TestCase
 
     /**
      * @dataProvider wrongInputProvider
-     * @expectedException \InvalidArgumentException
+     *
      */
     public function testCMYKCanNotBeCreated($cyan, $magenta, $yellow, $key)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new CMYK($cyan, $magenta, $yellow, $key);
     }
 
-    public function correctInputProvider()
+    public function correctInputProvider(): array
     {
         return [
             [0.0,   0.0,   0.0,   0.0],
@@ -42,7 +45,7 @@ class CMYKTest extends TestCase
         ];
     }
 
-    public function wrongInputProvider()
+    public function wrongInputProvider(): array
     {
         return [
             [-0.01, 50.0, 50.0, 50.0],

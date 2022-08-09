@@ -21,7 +21,7 @@ class ConverterTest extends TestCase
     /** @var Converter */
     private $converter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->converter = Factory::createConverter();
     }
@@ -31,11 +31,9 @@ class ConverterTest extends TestCase
         $this->assertInstanceOf(Converter::class, $this->converter);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testMultipleVertexId()
     {
+        $this->expectException(\RuntimeException::class);
         $graph = new Graph();
 
         $RGBVertex = $graph->createVertex(RGB::class);
@@ -51,11 +49,9 @@ class ConverterTest extends TestCase
         $converter->convert($RGB, HSV::class);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testNoneVertexId()
     {
+        $this->expectException(\RuntimeException::class);
         $graph = new Graph();
 
         $HEXVertex = $graph->createVertex(HEX::class);
@@ -69,44 +65,36 @@ class ConverterTest extends TestCase
         $converter->convert($RGB, HSV::class);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongParameterHSVToRGB()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $RGB = new RGB(0, 0, 0);
         $HSVToRGBConverter = new HSVToRGBConverter();
 
         $HSVToRGBConverter->convert($RGB);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongParameterRGBToHSV()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $HSV = new HSV(0, 0, 0);
         $RGBToHSVConverter = new RGBToHSVConverter();
 
         $RGBToHSVConverter->convert($HSV);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongParameterRGBToHEX()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $HSV = new HSV(0, 0, 0);
         $RGBToHEXConverter = new RGBToHEXConverter();
 
         $RGBToHEXConverter->convert($HSV);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongParameterHEXToRGB()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $HSV = new HSV(0, 0, 0);
         $HEXToRGBConverter = new HEXToRGBConverter();
 
@@ -299,7 +287,7 @@ class ConverterTest extends TestCase
         $this->assertEquals($blue, $color->getBlue());
     }
 
-    public function colorProvider()
+    public function colorProvider(): array
     {
         return [
             [0,     0,   0,   0,   0,      0,      0,   0,      0,    '000000',   0,      0,      0,    100],
@@ -366,7 +354,6 @@ class ConverterTest extends TestCase
             [255, 255,  85,  60,  66.67, 100,     60, 100,     66.67, 'FFFF55',   0,      0,     66.67,   0],
             [255, 255, 170,  60,  33.33, 100,     60, 100,     83.33, 'FFFFAA',   0,      0,     33.33,   0],
             [255, 255, 255,   0,   0,    100,      0,   0,    100,    'FFFFFF',   0,      0,      0,      0],
-
             [128, 128, 128,   0,   0,     50.2,    0,   0,     50.2,    '808080',   0,      0,      0,   49.8],
         ];
     }

@@ -7,6 +7,7 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HSL;
 use Artack\Color\Color\RGB;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 class HSLToRGBConverter implements ConverterInterface
@@ -55,6 +56,8 @@ class HSLToRGBConverter implements ConverterInterface
                 $green = 0;
                 $blue = $x;
                 break;
+            default:
+                throw new RuntimeException();
         }
 
         return new RGB((int) round(($red + $m) * 255), (int) round(($green + $m) * 255), (int) round(($blue + $m) * 255));

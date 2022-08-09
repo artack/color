@@ -15,7 +15,7 @@ class TransitionTest extends TestCase
     /** @var Transition */
     private $transition;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transition = Factory::createTransition();
     }
@@ -25,11 +25,9 @@ class TransitionTest extends TestCase
         $this->assertInstanceOf(Transition::class, $this->transition);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongParameterRGBToHEX()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $HSV = new HSV(0, 0, 0);
         $RGBTransition = new RGBTransition();
 
@@ -68,11 +66,9 @@ class TransitionTest extends TestCase
         $this->assertInstanceOf(HSV::class, $color);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testGetNonExistingTransition()
     {
+        $this->expectException(\RuntimeException::class);
         $HEX = new HEX('00', '00', '00');
         $color = $this->transition->interpolate(HEX::class, $HEX, $HEX, 0, 1);
 

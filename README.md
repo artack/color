@@ -4,10 +4,6 @@ artack/color
 > color conversions and transitions (e.g. interpolation).
 
 
-[![Build Status](https://img.shields.io/travis/ARTACK/color.svg?style=flat)](https://travis-ci.org/ARTACK/color)
-[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/artack/color.svg?style=flat)](https://scrutinizer-ci.com/g/artack/color/)
-[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/artack/color.svg)](https://scrutinizer-ci.com/g/artack/color/)
-
 [![Latest Release](https://img.shields.io/packagist/v/artack/color.svg)](https://packagist.org/packages/artack/color)
 [![MIT License](https://img.shields.io/packagist/l/artack/color.svg)](http://opensource.org/licenses/MIT)
 [![Total Downloads](https://img.shields.io/packagist/dt/artack/color.svg)](https://packagist.org/packages/artack/color)
@@ -22,13 +18,13 @@ Features
 - Provides conversion between all class representation
 - Provides transitions between colors (e.g. interpolation)
 - Provides clear exceptions to be able to handle library exceptions
-- Compatible with PHP >= 7.
+- Compatible with PHP >= 7 and >= 8.
 
 
 Installation
 ------------
 
-You can install ARTACK's color library through [Composer](https://getcomposer.org):
+You can install this color library through [Composer](https://getcomposer.org):
 
 ```shell
 $ composer require artack/color
@@ -60,6 +56,6 @@ $RGBGreen = new RGB(0, 255, 0); // green
 
 $RGBInterpolated = $transition->interpolate(RGB::class, $RGBRed, $RGBGreen, 100, 200); // should be ~yellow
 
-// Interpolation will give better results when using HSV Transition. Colors get converted automaticly if needed.
+// Interpolation will give better results when using HSV Transition. Colors get converted automatically if needed.
 $HSVInterpolated = $transition->interpolate(HSV::class, $RGBRed, $RGBGreen, 100, 200); // should be ~yellow
 ```

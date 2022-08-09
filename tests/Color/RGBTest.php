@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Artack\Color\Color;
 
+use Artack\Color\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class RGBTest extends TestCase
@@ -25,14 +26,14 @@ class RGBTest extends TestCase
 
     /**
      * @dataProvider wrongInputProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testRGBCanNotBeCreated($red, $green, $blue)
     {
+        $this->expectException(InvalidArgumentException::class);
         new RGB($red, $green, $blue);
     }
 
-    public function correctInputProvider()
+    public function correctInputProvider(): array
     {
         return [
             [0,   0,   0],
@@ -41,7 +42,7 @@ class RGBTest extends TestCase
         ];
     }
 
-    public function wrongInputProvider()
+    public function wrongInputProvider(): array
     {
         return [
             [-1,   0,   0],

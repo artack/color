@@ -16,9 +16,9 @@ class HEXToRGBConverter implements ConverterInterface
         /* @var HEX $color */
         Assert::isInstanceOf($color, HEX::class, sprintf('color should be an instance of [%s]', HEX::class));
 
-        $red = hexdec($color->getRed());
-        $green = hexdec($color->getGreen());
-        $blue = hexdec($color->getBlue());
+        $red = (int) hexdec($color->getRed());
+        $green = (int) hexdec($color->getGreen());
+        $blue = (int) hexdec($color->getBlue());
 
         return new RGB($red, $green, $blue);
     }

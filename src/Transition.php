@@ -6,19 +6,23 @@ namespace Artack\Color;
 
 use Artack\Color\Color\Color;
 use Artack\Color\Transition\TransitionInterface;
+
+use function get_class;
+
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 class Transition
 {
-    /** @var TransitionInterface[] */
-    private $transitions = [];
+    /**
+     * @var array<int, TransitionInterface>
+     */
+    private array $transitions = [];
 
-    /** @var Converter */
-    private $converter;
+    private Converter $converter;
 
     /**
-     * @param TransitionInterface[] $transitions
-     * @param Converter             $converter
+     * @param array<int, TransitionInterface> $transitions
      */
     public function __construct(array $transitions, Converter $converter)
     {
@@ -29,7 +33,7 @@ class Transition
         $this->converter = $converter;
     }
 
-    private function addTransition(TransitionInterface $transition)
+    private function addTransition(TransitionInterface $transition): void
     {
         $this->transitions[] = $transition;
     }
@@ -59,6 +63,6 @@ class Transition
             }
         }
 
-        throw new \RuntimeException('no transition found getTransition');
+        throw new RuntimeException('no transition found getTransition');
     }
 }
