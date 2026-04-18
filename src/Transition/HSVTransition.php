@@ -6,23 +6,25 @@ namespace Artack\Color\Transition;
 
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HSV;
-use Webmozart\Assert\Assert;
+use Artack\Color\Exception\InvalidArgumentException;
 
-class HSVTransition implements TransitionInterface
+final class HSVTransition implements TransitionInterface
 {
     public function interpolate(Color $startColor, Color $endColor, float $value, float $max): Color
     {
-        /* @var HSV $startColor */
-        Assert::isInstanceOf($startColor, HSV::class, sprintf('startColor needs to be an instance of [%s]', HSV::class));
+        if (!$startColor instanceof HSV) {
+            throw new InvalidArgumentException(sprintf('startColor needs to be an instance of [%s]', HSV::class));
+        }
 
-        /* @var HSV $endColor */
-        Assert::isInstanceOf($endColor, HSV::class, sprintf('endColor needs to be an instance of [%s]', HSV::class));
+        if (!$endColor instanceof HSV) {
+            throw new InvalidArgumentException(sprintf('endColor needs to be an instance of [%s]', HSV::class));
+        }
 
         $step = $value / $max;
 
-        $hue = $startColor->getHue() + ($endColor->getHue() - $startColor->getHue()) * $step;
-        $saturation = $startColor->getSaturation() + ($endColor->getSaturation() - $startColor->getSaturation()) * $step;
-        $value = $startColor->getValue() + ($endColor->getValue() - $startColor->getValue()) * $step;
+        $hue = $startColor->hue + ($endColor->hue - $startColor->hue) * $step;
+        $saturation = $startColor->saturation + ($endColor->saturation - $startColor->saturation) * $step;
+        $value = $startColor->value + ($endColor->value - $startColor->value) * $step;
 
         return new HSV((int) round($hue), $saturation, $value);
     }

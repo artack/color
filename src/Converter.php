@@ -6,24 +6,20 @@ namespace Artack\Color;
 
 use Artack\Color\Color\Color;
 
-use function get_class;
-
-class Converter
+final readonly class Converter
 {
-    private ConverterGraph $converterGraph;
-
-    public function __construct(ConverterGraph $converterGraph)
-    {
-        $this->converterGraph = $converterGraph;
+    public function __construct(
+        private ConverterGraph $converterGraph,
+    ) {
     }
 
     public function convert(Color $color, string $fqcn): Color
     {
-        if (get_class($color) === $fqcn) {
+        if ($color::class === $fqcn) {
             return clone $color;
         }
 
-        foreach ($this->converterGraph->getConverterChain(get_class($color), $fqcn) as $converter) {
+        foreach ($this->converterGraph->getConverterChain($color::class, $fqcn) as $converter) {
             $color = $converter->convert($color);
         }
 

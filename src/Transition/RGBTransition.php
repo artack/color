@@ -6,23 +6,25 @@ namespace Artack\Color\Transition;
 
 use Artack\Color\Color\Color;
 use Artack\Color\Color\RGB;
-use Webmozart\Assert\Assert;
+use Artack\Color\Exception\InvalidArgumentException;
 
-class RGBTransition implements TransitionInterface
+final class RGBTransition implements TransitionInterface
 {
     public function interpolate(Color $startColor, Color $endColor, float $value, float $max): Color
     {
-        /* @var RGB $startColor */
-        Assert::isInstanceOf($startColor, RGB::class, sprintf('startColor needs to be an instance of [%s]', RGB::class));
+        if (!$startColor instanceof RGB) {
+            throw new InvalidArgumentException(sprintf('startColor needs to be an instance of [%s]', RGB::class));
+        }
 
-        /* @var RGB $endColor */
-        Assert::isInstanceOf($endColor, RGB::class, sprintf('endColor needs to be an instance of [%s]', RGB::class));
+        if (!$endColor instanceof RGB) {
+            throw new InvalidArgumentException(sprintf('endColor needs to be an instance of [%s]', RGB::class));
+        }
 
         $step = $value / $max;
 
-        $red = $startColor->getRed() + ($endColor->getRed() - $startColor->getRed()) * $step;
-        $green = $startColor->getGreen() + ($endColor->getGreen() - $startColor->getGreen()) * $step;
-        $blue = $startColor->getBlue() + ($endColor->getBlue() - $startColor->getBlue()) * $step;
+        $red = $startColor->red + ($endColor->red - $startColor->red) * $step;
+        $green = $startColor->green + ($endColor->green - $startColor->green) * $step;
+        $blue = $startColor->blue + ($endColor->blue - $startColor->blue) * $step;
 
         return new RGB((int) round($red), (int) round($green), (int) round($blue));
     }

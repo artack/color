@@ -5,44 +5,39 @@ declare(strict_types=1);
 namespace Artack\Color;
 
 use Artack\Color\Converter\ConverterInterface;
-
-use function count;
-
+use Artack\Color\Exception\InvalidArgumentException;
 use Fhaculty\Graph\Edge\Base;
 use Fhaculty\Graph\Graph;
 use Fhaculty\Graph\Vertex;
 use Graphp\Algorithms\ShortestPath\Dijkstra;
 use RuntimeException;
-use Webmozart\Assert\Assert;
 
-class ConverterGraph
+final readonly class ConverterGraph
 {
-    private Graph $converterGraph;
-
-    public function __construct(Graph $converterGraph)
-    {
-        $this->converterGraph = $converterGraph;
+    public function __construct(
+        private Graph $converterGraph,
+    ) {
     }
 
     /**
-     * @return array<ConverterInterface>|ConverterInterface[]
+     * @return array<int, ConverterInterface>
      */
     public function getConverterChain(string $fromFqcn, string $toFqcn): array
     {
-        $fromVertexId = (int) array_search($fromFqcn, Factory::getColors());
-        $toVertexId = (int) array_search($toFqcn, Factory::getColors());
+        $fromVertexId = (int) array_search($fromFqcn, Factory::getColors(), true);
+        $toVertexId = (int) array_search($toFqcn, Factory::getColors(), true);
 
-        $fromVertex = $this->findVertex($fromVertexId);
-        $toVertex = $this->findVertex($toVertexId);
-
-        $walk = (new Dijkstra($fromVertex))->getWalkTo($toVertex);
+        $walk = (new Dijkstra($this->findVertex($fromVertexId)))->getWalkTo($this->findVertex($toVertexId));
 
         $converters = [];
 
         /** @var Base $edge */
         foreach ($walk->getEdges() as $edge) {
             $converter = $edge->getAttribute(Factory::GRAPH_EDGE_KEY_CONVERTER);
-            Assert::isInstanceOf($converter, ConverterInterface::class, sprintf('converter should be an instance of [%s]', ConverterInterface::class));
+
+            if (!$converter instanceof ConverterInterface) {
+                throw new InvalidArgumentException(sprintf('converter should be an instance of [%s]', ConverterInterface::class));
+            }
 
             $converters[] = $converter;
         }
@@ -52,9 +47,10 @@ class ConverterGraph
 
     private function findVertex(int $key): Vertex
     {
-        $vertices = array_filter($this->converterGraph->getVertices()->getVector(), static function (Vertex $vertex) use ($key) {
-            return $vertex->getId() === $key;
-        });
+        $vertices = array_filter(
+            $this->converterGraph->getVertices()->getVector(),
+            static fn (Vertex $vertex): bool => $vertex->getId() === $key,
+        );
 
         if (1 !== count($vertices)) {
             throw new RuntimeException('did not find vertex by '.$key);

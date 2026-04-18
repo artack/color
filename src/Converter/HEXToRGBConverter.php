@@ -7,20 +7,21 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\HEX;
 use Artack\Color\Color\RGB;
-use Webmozart\Assert\Assert;
+use Artack\Color\Exception\InvalidArgumentException;
 
-class HEXToRGBConverter implements ConverterInterface
+final class HEXToRGBConverter implements ConverterInterface
 {
     public function convert(Color $color): Color
     {
-        /* @var HEX $color */
-        Assert::isInstanceOf($color, HEX::class, sprintf('color should be an instance of [%s]', HEX::class));
+        if (!$color instanceof HEX) {
+            throw new InvalidArgumentException(sprintf('color should be an instance of [%s]', HEX::class));
+        }
 
-        $red = (int) hexdec($color->getRed());
-        $green = (int) hexdec($color->getGreen());
-        $blue = (int) hexdec($color->getBlue());
-
-        return new RGB($red, $green, $blue);
+        return new RGB(
+            (int) hexdec($color->red),
+            (int) hexdec($color->green),
+            (int) hexdec($color->blue),
+        );
     }
 
     public static function supportsFrom(): string

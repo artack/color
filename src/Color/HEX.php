@@ -5,33 +5,26 @@ declare(strict_types=1);
 namespace Artack\Color\Color;
 
 use Artack\Color\Exception\InvalidArgumentException;
+use Stringable;
 
-class HEX extends Color
+final readonly class HEX extends Color implements Stringable
 {
-    private string $red;
-    private string $green;
-    private string $blue;
+    private const PATTERN = '/^[0-9a-f]{1,2}$/i';
 
-    public function __construct(string $red, string $green, string $blue)
-    {
-        $pattern = '/^[0-9a-f]{1,2}$/i';
-
-        if (!preg_match($pattern, $red)) {
-            throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $red));
-        }
-        if (!preg_match($pattern, $green)) {
-            throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $green));
-        }
-        if (!preg_match($pattern, $blue)) {
-            throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $blue));
-        }
-
-        $this->red = $red;
-        $this->green = $green;
-        $this->blue = $blue;
+    public function __construct(
+        public string $red,
+        public string $green,
+        public string $blue,
+    ) {
+        match (true) {
+            !preg_match(self::PATTERN, $red) => throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $red)),
+            !preg_match(self::PATTERN, $green) => throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $green)),
+            !preg_match(self::PATTERN, $blue) => throw new InvalidArgumentException(sprintf('Given red value %s need so to be a valid 2 character hex string', $blue)),
+            default => null,
+        };
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%02x%02x%02x', hexdec($this->red), hexdec($this->green), hexdec($this->blue));
     }

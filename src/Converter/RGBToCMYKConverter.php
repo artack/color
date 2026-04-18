@@ -7,22 +7,23 @@ namespace Artack\Color\Converter;
 use Artack\Color\Color\CMYK;
 use Artack\Color\Color\Color;
 use Artack\Color\Color\RGB;
-use Webmozart\Assert\Assert;
+use Artack\Color\Exception\InvalidArgumentException;
 
-class RGBToCMYKConverter implements ConverterInterface
+final class RGBToCMYKConverter implements ConverterInterface
 {
     public function convert(Color $color): Color
     {
-        /* @var RGB $color */
-        Assert::isInstanceOf($color, RGB::class, sprintf('color should be an instance of [%s]', RGB::class));
+        if (!$color instanceof RGB) {
+            throw new InvalidArgumentException(sprintf('color should be an instance of [%s]', RGB::class));
+        }
 
-        $red = $color->getRed() / 255 * 100;
-        $green = $color->getGreen() / 255 * 100;
-        $blue = $color->getBlue() / 255 * 100;
-
-        if (0 === $red && 0 === $green && 0 === $blue) {
+        if (0 === $color->red && 0 === $color->green && 0 === $color->blue) {
             return new CMYK(0, 0, 0, 100);
         }
+
+        $red = $color->red / 255 * 100;
+        $green = $color->green / 255 * 100;
+        $blue = $color->blue / 255 * 100;
 
         $key = 100 - max($red, $green, $blue);
         $cyan = ((100 - $red - $key) / (100 - $key)) * 100;

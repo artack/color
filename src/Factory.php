@@ -24,7 +24,7 @@ use Artack\Color\Transition\TransitionInterface;
 use Fhaculty\Graph\Graph;
 use Fhaculty\Graph\Vertex;
 
-class Factory
+final class Factory
 {
     public const GRAPH_EDGE_KEY_CONVERTER = 'converter';
 
@@ -39,7 +39,7 @@ class Factory
     }
 
     /**
-     * @return ConverterInterface[]
+     * @return list<ConverterInterface>
      */
     private static function getConverters(): array
     {
@@ -56,7 +56,7 @@ class Factory
     }
 
     /**
-     * @return array<int, class-string>
+     * @return list<class-string>
      */
     public static function getColors(): array
     {
@@ -70,7 +70,7 @@ class Factory
     }
 
     /**
-     * @return TransitionInterface[]
+     * @return list<TransitionInterface>
      */
     private static function getTransitions(): array
     {
@@ -84,7 +84,7 @@ class Factory
     {
         $graph = new Graph();
 
-        /** @var Vertex[] $vertices */
+        /** @var array<class-string, Vertex> $vertices */
         $vertices = [];
 
         foreach (self::getColors() as $index => $color) {
@@ -92,7 +92,9 @@ class Factory
         }
 
         foreach (self::getConverters() as $converter) {
-            $vertices[$converter::supportsFrom()]->createEdgeTo($vertices[$converter::supportsTo()])->setAttribute(self::GRAPH_EDGE_KEY_CONVERTER, $converter);
+            $vertices[$converter::supportsFrom()]
+                ->createEdgeTo($vertices[$converter::supportsTo()])
+                ->setAttribute(self::GRAPH_EDGE_KEY_CONVERTER, $converter);
         }
 
         return $graph;
